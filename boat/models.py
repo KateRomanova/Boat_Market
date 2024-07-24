@@ -11,35 +11,37 @@ class Owner(models.Model):
         return f'{self.email} ({self.name})'
 
     class Meta:
-        verbose_name = 'владелец'
-        verbose_name_plural = 'владельцы'
+        verbose_name = 'owner'
+        verbose_name_plural = 'owners'
 
 
 class Boat(models.Model):
 
-    name = models.CharField(max_length=50, verbose_name='название')
-    year = models.PositiveSmallIntegerField(**NULLABLE, verbose_name='год выпуска')
+    name = models.CharField(max_length=50, verbose_name='name')
+    year = models.PositiveSmallIntegerField(**NULLABLE, verbose_name='made in (year)')
 
-    owner = models.ForeignKey(Owner, on_delete=models.CASCADE, verbose_name='владелец')
+    price = models.IntegerField(**NULLABLE, verbose_name='price')
+
+    owner = models.ForeignKey(Owner, on_delete=models.CASCADE, verbose_name='owner')
 
     def __str__(self):
         return f'{self.name}'
 
     class Meta:
-        verbose_name = 'лодка'
-        verbose_name_plural = 'лодки'
+        verbose_name = 'boat'
+        verbose_name_plural = 'boats'
 
 
 class BoatHistory(models.Model):
 
-    boat = models.ForeignKey(Boat, on_delete=models.CASCADE, verbose_name='лодка')
-    owner = models.ForeignKey(Owner, on_delete=models.SET_NULL, verbose_name='владелец', **NULLABLE)
-    start_year = models.PositiveSmallIntegerField(**NULLABLE, verbose_name='владел с')
-    end_year = models.PositiveSmallIntegerField(**NULLABLE, verbose_name='владел по')
+    boat = models.ForeignKey(Boat, on_delete=models.CASCADE, verbose_name='boat')
+    owner = models.ForeignKey(Owner, on_delete=models.SET_NULL, verbose_name='owner', **NULLABLE)
+    start_year = models.PositiveSmallIntegerField(**NULLABLE, verbose_name='owned from')
+    end_year = models.PositiveSmallIntegerField(**NULLABLE, verbose_name='owned till')
 
     def __str__(self):
         return f'{self.boat.name} ({self.start_year}-{self.end_year})'
 
     class Meta:
-        verbose_name = 'история'
-        verbose_name_plural = 'история'
+        verbose_name = 'history'
+        verbose_name_plural = 'history'
